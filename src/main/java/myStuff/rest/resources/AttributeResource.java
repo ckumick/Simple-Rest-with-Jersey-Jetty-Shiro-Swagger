@@ -17,7 +17,6 @@ import myStuff.rest.providers.AttributeValueProvider;
 @Path("attribute/{id}")
 public class AttributeResource {
 
-	private static Map<String, String> values = new HashMap<>();
 	private final AttributeValueProvider provider;
 	
 	@Inject
