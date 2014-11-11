@@ -3,11 +3,8 @@ package myStuff.rest.resources;
 import static org.junit.Assert.*;
 
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-
 import myStuff.rest.app.MyBinder;
 
 import org.glassfish.jersey.server.ResourceConfig;
