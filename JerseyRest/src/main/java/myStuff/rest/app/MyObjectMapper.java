@@ -36,9 +36,6 @@ public class MyObjectMapper implements ContextResolver<ObjectMapper> {
 
 	    private static ObjectMapper createCombinedObjectMapper() {
 	        return new ObjectMapper()
-//	                .configure(SerializationFeature.WRAP_ROOT_VALUE, true)
-//	                .configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
-//	                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 	        		.configure(SerializationFeature.INDENT_OUTPUT, true)
 	                .setAnnotationIntrospector(createJaxbJacksonAnnotationIntrospector());
 	    }
@@ -50,9 +47,7 @@ public class MyObjectMapper implements ContextResolver<ObjectMapper> {
 	    }
 
 	    private static AnnotationIntrospector createJaxbJacksonAnnotationIntrospector() {
-	        final AnnotationIntrospector jaxbIntrospector = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
 	        final AnnotationIntrospector jacksonIntrospector = new JacksonAnnotationIntrospector();
-	        //return AnnotationIntrospector.pair(jacksonIntrospector, jaxbIntrospector);
 	        return jacksonIntrospector;
 	    }
 	}
