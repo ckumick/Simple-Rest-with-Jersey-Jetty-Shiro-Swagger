@@ -22,9 +22,13 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+
 import myStuff.rest.providers.AttributeValueProvider;
 
 @Path("attribute/{id}")
+@Api(value = "attribute", description = "Get and Post Attribute Values")
 public class AttributeResource {
 
 	private final AttributeValueProvider provider;
@@ -36,6 +40,7 @@ public class AttributeResource {
 
 	@GET
 	@Produces("text/plain")
+	@ApiOperation(value = "attribute value", notes = "More notes about this method", response = String.class)
 	public String getValueAsText(@PathParam("id") String id) {
 		String value = provider.getValue(id);
 		if( value.isEmpty() ) {
@@ -46,6 +51,7 @@ public class AttributeResource {
 	
 	@POST
 	@Consumes("text/plain")
+	@ApiOperation(value = "attribute value", notes = "More notes about this method")
 	public void setValueAsText(@PathParam("id") String id, String value) {
 		provider.setValue(id, value);
 	}

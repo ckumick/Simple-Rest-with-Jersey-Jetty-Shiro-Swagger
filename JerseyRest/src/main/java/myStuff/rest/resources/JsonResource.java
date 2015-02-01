@@ -18,14 +18,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+
 import myStuff.rest.data.JsonData;
 
 @Path("json")
 @Produces(MediaType.APPLICATION_JSON)
+@Api(value = "json", description = "Return a json value")
 public class JsonResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "a json value", notes = "More notes about this method", response=myStuff.rest.data.JsonData.class)
 	public JsonData getData() {
 		List<String> alist = Arrays.asList(new String[] { "one", "two", "three" });
 		
