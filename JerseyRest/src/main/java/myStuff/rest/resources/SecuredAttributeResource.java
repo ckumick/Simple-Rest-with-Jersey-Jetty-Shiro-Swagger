@@ -41,23 +41,24 @@ public class SecuredAttributeResource {
 	@GET
 	@Produces("text/plain")
 	@RolesAllowed("admin")
-	public String getValueAsText(@PathParam("id") String id) {
-		Subject subject = SecurityUtils.getSubject();
-		if( !subject.isAuthenticated() ) {
-			throw new WebApplicationException(Status.UNAUTHORIZED);
-		} else if( subject.getPrincipal() == null ) {
-			throw new WebApplicationException(Status.UNAUTHORIZED);
-		} else if (!subject.getPrincipal().equals("root") ) {
-			throw new WebApplicationException(Status.FORBIDDEN);
-		}
-		
+	public String getValueAsText(@Context SecurityContext sc, @PathParam("id") String id) {
+		verifySecurity(sc);
 		String value = provider.getValue(id);
 		return value;
 	}
-	
+
 	@POST
 	@Consumes("text/plain")
-	public void setValueAsText(@PathParam("id") String id, String value) {
+	public void setValueAsText(@Context SecurityContext sc, @PathParam("id") String id, String value) {
+		verifySecurity(sc);
+		provider.setValue(id, value);
+	}
+	
+	private void verifySecurity(SecurityContext sc) {
+		if( !sc.isSecure() ) {
+			throw new WebApplicationException(Status.FORBIDDEN);
+		}
+		
 		Subject subject = SecurityUtils.getSubject();
 		if( !subject.isAuthenticated() ) {
 			throw new WebApplicationException(Status.UNAUTHORIZED);
@@ -66,6 +67,6 @@ public class SecuredAttributeResource {
 		} else if (!subject.getPrincipal().equals("root") ) {
 			throw new WebApplicationException(Status.FORBIDDEN);
 		}
-		provider.setValue(id, value);
 	}
+	
 }
