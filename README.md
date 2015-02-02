@@ -9,6 +9,30 @@ A simple implemention of a Restful web server to test about the basic usage. It 
 - Uses embedded swagger to publish api, and embeds the ui into the jetty web server at /api-doc-ui.
 - Uses hk2 for dependency injection.
 
+## Access Server using curl for simple testing
+
+To test that the fuctionality was working on the server here are some curl commands:
+
+Post and get an attribute
+curl -v -H "Content-Type:text/plain" --data world 127.0.0.1:8080/attribute/hello
+curl -v 127.0.0.1:8080/attribute/hello
+
+Get attribute updates pushed using chunked resource
+curl 127.0.0.1:8080/attribute/chunked
+
+Get attribute updates pushed using SSE
+curl -v 127.0.0.1:8080/attribute/updates
+
+Post and get a secured attribute over https
+curl -k -H "Content-Type:text/plain" --data-ascii world -u root:password https://127.0.0.1:8443/secure/hello
+curl -k -u root:password https://127.0.0.1:8443/secure/hello
+
+Get a json resource
+curl -v 127.0.0.1:8080/json
+
+Get SSE stream of json updates
+curl -v 127.0.0.1:8080/sse
+
 ## Acknowledgements
 
 Thank You to the following articles and forums for solutions:
