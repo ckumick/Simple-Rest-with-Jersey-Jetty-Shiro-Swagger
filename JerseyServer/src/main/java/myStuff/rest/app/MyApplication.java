@@ -41,6 +41,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
+import org.glassfish.jersey.media.sse.SseFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -93,7 +94,8 @@ public class MyApplication {
 
 		ResourceConfig rc = new ResourceConfig();
 		rc.packages("myStuff.rest.resources;com.wordnik.swagger.jersey.listing")
-				.register(new MyBinder()).register(JacksonFeature.class);
+				.register(new MyBinder()).register(JacksonFeature.class)
+				.register(SseFeature.class);
 
 		ServletHolder h = new ServletHolder(new ServletContainer(rc));
 		h.setInitParameter(ServerProperties.PROVIDER_PACKAGES,
