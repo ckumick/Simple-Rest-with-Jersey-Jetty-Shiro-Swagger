@@ -10,16 +10,26 @@
  *******************************************************************************/
 package myStuff.rest.app;
 
+import java.io.File;
+
 import myStuff.rest.providers.AttributeValueProvider;
 import myStuff.rest.providers.AttributeValueProviderImpl;
-
+import myStuff.rest.providers.XmlFileProvider;
+import myStuff.rest.providers.XmlFileProviderImpl;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
 public class MyBinder extends AbstractBinder {
+	
+	private final File uploadFolder;
+
+	public MyBinder(File uploadFolder) {
+		this.uploadFolder = uploadFolder;
+	}
 
 	@Override
 	protected void configure() {
 		bind(new AttributeValueProviderImpl()).to(AttributeValueProvider.class);
+		bind(new XmlFileProviderImpl(uploadFolder)).to(XmlFileProvider.class);
 	}
 
 }

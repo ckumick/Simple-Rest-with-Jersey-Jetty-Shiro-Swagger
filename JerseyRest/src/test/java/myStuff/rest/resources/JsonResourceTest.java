@@ -30,7 +30,7 @@ public class JsonResourceTest extends JerseyTest {
 	@Override
 	protected Application configure() {
 		ResourceConfig rc = new ResourceConfig(AttributeResource.class);
-		rc.packages("myStuff.rest.resources", "myStuff.rest.data", "com.fasterxml.jackson.jaxrs.json").register(new MyBinder())
+		rc.packages("myStuff.rest.resources", "myStuff.rest.data", "com.fasterxml.jackson.jaxrs.json").register(new MyBinder(null))
 				.register(JacksonFeature.class).register(JacksonJaxbJsonProvider.class).register(MyObjectMapper.class);
 		return rc;
 	}

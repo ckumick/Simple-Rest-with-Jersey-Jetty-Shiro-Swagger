@@ -94,7 +94,7 @@ public class MyApplication {
 
 		ResourceConfig rc = new ResourceConfig();
 		rc.packages("myStuff.rest.resources;com.wordnik.swagger.jersey.listing")
-				.register(new MyBinder()).register(JacksonFeature.class)
+				.register(new MyBinder(null)).register(JacksonFeature.class)
 				.register(SseFeature.class);
 
 		ServletHolder h = new ServletHolder(new ServletContainer(rc));

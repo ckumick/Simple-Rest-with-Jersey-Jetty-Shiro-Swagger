@@ -26,7 +26,7 @@ public class AttributeResourceTest extends JerseyTest {
     @Override
     protected Application configure() {
         ResourceConfig rc = new ResourceConfig(AttributeResource.class);
-        rc.packages("myStuff.rest.resources").register(new MyBinder());
+        rc.packages("myStuff.rest.resources").register(new MyBinder(null));
 		return rc;
     }
     
