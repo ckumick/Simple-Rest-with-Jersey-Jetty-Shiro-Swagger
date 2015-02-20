@@ -51,14 +51,11 @@ public class XmlFile {
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(value = "Download an xml file", notes = "More notes about this method")
 	public Response download(@PathParam("name") String name) {
-		try {
-			File file = new File(getClass().getClassLoader().getResource("defaultXmlFile.xml").toURI());
-			return Response.ok(file).header("Content-Disposition", "attachment: filename=" + name + ".xml").build();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		File file = new File(provider.getFolder().getAbsolutePath() + File.separator + name + ".xml");
+		if (!file.exists()) {
+			return Response.status(Response.Status.NOT_FOUND).build();
 		}
-		return Response.status(Response.Status.NOT_FOUND).build();
+		return Response.ok(file).header("Content-Disposition", "attachment: filename=" + name + ".xml").build();
 	}
 
 	@POST
