@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (C) 2014 by Craig Kumick
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+ * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+ * specific language governing permissions and limitations under the License.
+ *******************************************************************************/
 package myStuff.rest.resources;
 
 import static org.junit.Assert.*;
@@ -8,30 +18,16 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import myStuff.rest.app.MyBinder;
-import myStuff.rest.app.MyObjectMapper;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPart;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.multipart.file.StreamDataBodyPart;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
-import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
-
-public class XmlFileTransferTest extends JerseyTest {
+public class XmlFileTransferTest extends MyJerseyTestConfig {
 
 	private static final String SERVER_SOURCE_LOCATION = "/xmlFile/serverSide/";
 	private static final String CLIENT_SOURCE_LOCATION = "/xmlFile/clientSide/";
@@ -39,30 +35,6 @@ public class XmlFileTransferTest extends JerseyTest {
 	private static final String FILE_TO_DOWNLOAD = "exisitingFile.xml";
 	
 	
-	@ClassRule
-	public static TemporaryFolder testFolder = new TemporaryFolder();
-	private File serverStorageFolder;
-
-	@Override
-	protected Application configure() {
-		serverStorageFolder = new File(testFolder.getRoot().getAbsolutePath());
-		
-		ResourceConfig rc = new ResourceConfig(AttributeResource.class);
-		rc.packages("myStuff.rest.resources", 
-				"myStuff.rest.data", 
-				"com.fasterxml.jackson.jaxrs.json",
-				"org.glassfish.jersey.examples.multipart")
-				.register(new MyBinder(serverStorageFolder)).register(JacksonFeature.class).register(JacksonJaxbJsonProvider.class)
-				.register(MultiPartFeature.class)
-				.register(MyObjectMapper.class);
-		return rc;
-	}
-	
-    @Override
-    protected void configureClient(ClientConfig config) {
-        config.register(MultiPartFeature.class);
-    }
-
 
 	@Test
 	public void testDownload() throws IOException {

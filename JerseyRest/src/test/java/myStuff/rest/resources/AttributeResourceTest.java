@@ -11,30 +11,21 @@
 package myStuff.rest.resources;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.*;
 
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
-import myStuff.rest.app.MyBinder;
 
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 
-public class AttributeResourceTest extends JerseyTest {
+public class AttributeResourceTest extends MyJerseyTestConfig {
 
-    @Override
-    protected Application configure() {
-        ResourceConfig rc = new ResourceConfig(AttributeResource.class);
-        rc.packages("myStuff.rest.resources").register(new MyBinder(null));
-		return rc;
-    }
-    
 	@Test
 	public void test() {
 		Entity<String> entity = Entity.entity("hello", "text/plain");
-		
+
 		Response response = target("attribute/test").request().buildPost(Entity.entity("hello", "text/plain")).invoke();
+		assertThat("Status OK", response.getStatus(), equalTo(Response.Status.NO_CONTENT.getStatusCode()));
 		final String hello = target("attribute/test").request().get(String.class);
 		assertEquals("hello", hello);
 	}
