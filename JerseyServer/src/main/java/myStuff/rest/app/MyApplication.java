@@ -43,8 +43,11 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.media.sse.SseFeature;
+import org.glassfish.jersey.message.DeflateEncoder;
+import org.glassfish.jersey.message.GZipEncoder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
+import org.glassfish.jersey.server.filter.EncodingFilter;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import com.wordnik.swagger.jersey.config.JerseyJaxrsConfig;
@@ -92,8 +95,13 @@ public class MyApplication {
         rc.packages("myStuff.rest.resources;com.wordnik.swagger.jersey.listing")
                 .register(
                         new MyBinder(new File(System.getProperty("user.home") + File.separator
-                                + "JerseyServer"))).register(MultiPartFeature.class)
-                .register(JacksonFeature.class).register(SseFeature.class);
+                                + "JerseyServer")))
+                .register(MultiPartFeature.class)
+                .register(JacksonFeature.class)
+                .register(SseFeature.class)
+                .register(EncodingFilter.class)
+                .register(GZipEncoder.class)
+                .register(DeflateEncoder.class);
 
         ServletHolder h = new ServletHolder(new ServletContainer(rc));
         h.setInitParameter(ServerProperties.PROVIDER_PACKAGES,
