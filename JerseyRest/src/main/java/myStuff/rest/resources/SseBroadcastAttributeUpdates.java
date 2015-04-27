@@ -10,6 +10,8 @@
  *******************************************************************************/
 package myStuff.rest.resources;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
@@ -31,6 +33,7 @@ public class SseBroadcastAttributeUpdates implements AttributeValueListener {
 
 	private final AttributeValueProvider provider;
 	private final SseBroadcaster broadcaster = new SseBroadcaster();
+	private final AtomicInteger eventID = new AtomicInteger(0);
 
 	@Inject
 	public SseBroadcastAttributeUpdates(AttributeValueProvider provider) {
@@ -52,6 +55,7 @@ public class SseBroadcastAttributeUpdates implements AttributeValueListener {
 		OutboundEvent.Builder eventBuilder = new OutboundEvent.Builder();
 		OutboundEvent event = eventBuilder.name("message")
 				.mediaType(MediaType.TEXT_PLAIN_TYPE)
+				.id(Integer.toString(eventID.incrementAndGet()))
 				.data(String.class, attribute + " updated to " + value).build();
 		broadcaster.broadcast(event);
 	}

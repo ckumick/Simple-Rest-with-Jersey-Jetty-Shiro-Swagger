@@ -32,7 +32,8 @@ public class JsonResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(value = "a json value", notes = "More notes about this method", response=myStuff.rest.data.JsonData.class)
 	public JsonData getData() {
-		List<String> alist = Arrays.asList(new String[] { "one", "two", "three" });
+		List<String> alist = Arrays.asList(new String[] { "one", "two", "three", 
+		        "fdsgsdfgkjsdhkjasdhfkjlasdhfkjlasdhfkljahsdfdsfgsdgdfgsdfgsdfgsdfgjkhasdfkjhasdk" });
 		
 		return new JsonData(5, "hello", alist);
 	}
